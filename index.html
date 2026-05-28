@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lu Nsinda — Lecture des heures miroir</title>
+  <link rel="icon" type="image/jpeg" href="logo(2).jpeg">
+  <link rel="icon" href="logo(2).jpeg">
+  <link rel="apple-touch-icon" href="logo(2).jpeg">
+  <style>
+    :root {
+      --bg: #030303;
+      --bg-soft: #101208;
+      --card: rgba(255, 255, 255, 0.055);
+      --card-border: rgba(205, 170, 82, 0.28);
+      --gold: #e7c76a;
+      --gold-light: #fff0ad;
+      --green: #8ea83e;
+      --green-soft: rgba(142, 168, 62, 0.18);
+      --text: #fff8df;
+      --muted: #d7c28c;
+      --danger: #ff8c8c;
+      --success: #aef2bf;
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(231, 199, 106, 0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(142, 168, 62, 0.14), transparent 28%),
+        radial-gradient(circle at bottom, rgba(231, 199, 106, 0.08), transparent 32%),
+        var(--bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 58px 58px;
+      mask-image: radial-gradient(circle at top, black, transparent 72%);
+    }
+
+    .page {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 54px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 0 32px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .coffee-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    padding:12px 18px;
+    border-radius:999px;
+    font-weight:800;
+    color:#fff8df;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(231,199,106,0.28);
+    backdrop-filter:blur(10px);
+    transition:0.2s ease;
+  }
+
+  .coffee-btn:hover{
+    transform:translateY(-1px);
+    background:rgba(231,199,106,0.15);
+    border-color:var(--gold);
+  }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      border-radius: 18px;
+      filter: drop-shadow(0 0 18px rgba(231, 199, 106, 0.20));
+    }
+
+    .brand-text {
+      display: grid;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #120d02;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      box-shadow: 0 16px 34px rgba(231, 199, 106, 0.16);
+      white-space: nowrap;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: clamp(24px, 5vw, 52px);
+      align-items: center;
+      min-height: calc(100vh - 160px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border: 1px solid rgba(231, 199, 106, 0.38);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 22px;
+      backdrop-filter: blur(12px);
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 82px);
+      line-height: 0.94;
+      margin: 0 0 24px;
+      letter-spacing: -0.065em;
+      max-width: 780px;
+    }
+
+    .gold {
+      color: var(--gold);
+    }
+
+    .lead {
+      color: #ead9a7;
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.68;
+      max-width: 680px;
+      margin: 0 0 30px;
+    }
+
+    .points {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .point {
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(231, 199, 106, 0.18);
+      border-radius: 20px;
+      color: #eddca7;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .visual-card {
+      position: relative;
+      min-height: 520px;
+      border-radius: 38px;
+      border: 1px solid var(--card-border);
+      background:
+        radial-gradient(circle at center, rgba(231, 199, 106, 0.16), transparent 42%),
+        radial-gradient(circle at bottom, rgba(142, 168, 62, 0.14), transparent 38%),
+        linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.018));
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .visual-card::before {
+      content: "";
+      position: absolute;
+      width: 460px;
+      height: 460px;
+      border: 1px solid rgba(231, 199, 106, 0.18);
+      border-radius: 50%;
+      z-index: -1;
+      animation: rotateSlow 24s linear infinite;
+    }
+
+    .visual-card::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.055);
+      border-radius: 30px;
+      pointer-events: none;
+    }
+
+    .hero-logo {
+      width: min(78%, 440px);
+      max-height: 440px;
+      object-fit: contain;
+      filter:
+        drop-shadow(0 0 18px rgba(231, 199, 106, 0.24))
+        drop-shadow(0 0 34px rgba(142, 168, 62, 0.13));
+      animation: breathe 6.8s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: 0.94; }
+      50% { transform: scale(1.035); opacity: 1; }
+    }
+
+    @keyframes rotateSlow {
+      to { transform: rotate(360deg); }
+    }
+
+    .form-section {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .info,
+    form {
+      border-radius: 30px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      padding: clamp(20px, 3vw, 30px);
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.22);
+    }
+
+    .info h2,
+    form h2 {
+      margin: 0 0 14px;
+      font-size: clamp(25px, 3vw, 32px);
+      letter-spacing: -0.035em;
+    }
+
+    .info p {
+      color: #e7d09c;
+      line-height: 1.72;
+      margin: 0;
+    }
+
+    .flow {
+      margin-top: 22px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .flow div {
+      padding: 14px 15px;
+      border-radius: 17px;
+      background: linear-gradient(135deg, rgba(231, 199, 106, 0.11), rgba(142, 168, 62, 0.10));
+      color: #ffe7a4;
+      border: 1px solid rgba(231, 199, 106, 0.13);
+      line-height: 1.45;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      color: #f6de9c;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(231, 199, 106, 0.24);
+      background: rgba(4, 4, 4, 0.68);
+      color: var(--text);
+      border-radius: 17px;
+      padding: 14px 15px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 112px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(231, 199, 106, 0.14);
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 18px;
+      border: none;
+      border-radius: 19px;
+      padding: 16px 18px;
+      color: #161100;
+      background: linear-gradient(135deg, #fff1b8, #e7c76a 60%, #8ea83e);
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 18px 36px rgba(231, 199, 106, 0.20);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 22px 42px rgba(231, 199, 106, 0.26);
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: wait;
+      transform: none;
+    }
+
+    .message {
+      margin-top: 14px;
+      min-height: 24px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .message.success { color: var(--success); }
+    .message.error { color: var(--danger); }
+
+    .notice {
+      margin-top: 16px;
+      color: #c8aa70;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    footer {
+      margin-top: 42px;
+      text-align: center;
+      color: #a98d53;
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .visual-card {
+        min-height: 420px;
+      }
+
+      .hero-logo {
+        width: min(70%, 380px);
+      }
+
+      .form-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 24px, 1160px);
+        padding-top: 14px;
+      }
+
+      header {
+        align-items: flex-start;
+        padding-bottom: 22px;
+      }
+
+      .brand-logo {
+        width: 58px;
+        height: 58px;
+        border-radius: 14px;
+      }
+
+      .brand-title {
+        font-size: 14px;
+      }
+
+      .brand-subtitle {
+        font-size: 12px;
+        white-space: normal;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .points {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-card {
+        min-height: 340px;
+        border-radius: 28px;
+      }
+
+      .visual-card::before {
+        width: 320px;
+        height: 320px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 430px) {
+      h1 {
+        font-size: clamp(38px, 12vw, 48px);
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+
+      .badge {
+        font-size: 12px;
+        padding: 8px 11px;
+      }
+
+      .brand-logo {
+        width: 52px;
+        height: 52px;
+      }
+
+      .visual-card {
+        min-height: 290px;
+      }
+
+      .hero-logo {
+        width: 82%;
+      }
+.support-section{
+  margin-top:60px;
+  display:flex;
+  justify-content:center;
+}
+
+.support-card{
+  position:relative;
+  overflow:hidden;
+  width:min(680px,100%);
+  padding:42px 32px;
+  border-radius:32px;
+  text-align:center;
+
+  background:
+    radial-gradient(circle at top,
+      rgba(231,199,106,0.12),
+      transparent 40%),
+    rgba(255,255,255,0.04);
+
+  border:1px solid rgba(231,199,106,0.22);
+
+  backdrop-filter:blur(18px);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.35),
+    inset 0 0 40px rgba(231,199,106,0.03);
+}
+
+.support-glow{
+  position:absolute;
+  inset:-80px;
+  background:
+    radial-gradient(circle,
+      rgba(231,199,106,0.12),
+      transparent 60%);
+  animation:pulseGlow 6s ease-in-out infinite;
+  pointer-events:none;
+}
+
+.support-card h2{
+  position:relative;
+  margin:0 0 18px;
+  color:var(--gold-light);
+  font-size:34px;
+  letter-spacing:-0.04em;
+}
+
+.support-card p{
+  position:relative;
+  margin:0 auto 28px;
+  max-width:540px;
+  color:#ead9a7;
+  line-height:1.8;
+  font-size:17px;
+}
+
+.support-btn{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  padding:16px 28px;
+  border-radius:999px;
+
+  text-decoration:none;
+  color:#161100;
+
+  font-weight:900;
+  font-size:16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff1b8,
+      #e7c76a 60%,
+      #8ea83e
+    );
+
+  box-shadow:
+    0 18px 36px rgba(231,199,106,0.22);
+
+  transition:0.25s ease;
+}
+
+.support-btn:hover{
+  transform:translateY(-2px) scale(1.02);
+
+  box-shadow:
+    0 24px 46px rgba(231,199,106,0.30);
+}
+
+@keyframes pulseGlow{
+  0%,100%{
+    opacity:0.5;
+    transform:scale(1);
+  }
+
+  50%{
+    opacity:1;
+    transform:scale(1.08);
+  }
+}
+    
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header>
+      <div class="brand">
+        <img class="brand-logo" src="logo(2).jpeg" alt="Logo Lu Nsinda" />
+        <div class="brand-text">
+          <div class="brand-title">Lu Nsinda</div>
+          <div class="brand-subtitle">Lecture vibratoire du temps vivant</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:center;">
+        <a class="nav-cta" href="#lecture">
+          Décoder une heure
+        </a>
+
+        <a
+          class="coffee-btn"
+          href="buymeacoffee.com/ lunsinda"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ☕ Soutenez Lu-NSINDA
+        </a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="badge">
+          ✦ Heures miroir • synchronicités • vibration du temps
+        </div>
+
+        <h1>
+          Et si le temps<br />
+          essayait de te parler<span class="gold">...</span>
+        </h1>
+
+        <p class="lead">
+          Tu vois souvent des heures miroir comme 11h11, 22h22, 03h33
+          ou des synchronicités répétitives ? 12h05, 23H01...
+          <br /><br />
+          Certains moments semblent porter une vibration particulière.
+          Une sensation. Un appel intérieur difficile à expliquer.
+          <br /><br />
+          Le Lu Nsinda transforme le jour, le mois, l’heure et la minute
+          en lecture symbolique et vibratoire afin de révéler le message
+          caché du moment présent.
+        </p>
+
+        <div class="points">
+          <div class="point">✦ Décodage des heures miroir</div>
+          <div class="point">✦ Lecture énergétique du moment</div>
+          <div class="point">✦ Message intérieur & orientation consciente</div>
+        </div>
+      </div>
+
+      <div class="visual-card" aria-label="Logo Lu Nsinda">
+        <img class="hero-logo" src="logo(2).jpeg" alt="Logo Lu Nsinda" />
+      </div>
+    </section>
+
+    <section class="form-section" id="lecture">
+      <aside class="info">
+        <h2>Pourquoi certaines heures reviennent-elles toujours ?</h2>
+
+        <p>
+          Le temps n’est peut-être pas aussi silencieux qu’il en a l’air.
+          <br /><br />
+          Certaines synchronicités semblent apparaître lorsque quelque chose
+          cherche à émerger dans la conscience : une émotion, une décision,
+          une transformation, ou une compréhension plus profonde de soi.
+          <br /><br />
+          Chaque heure possède une vibration particulière pouvant révéler :
+        </p>
+
+        <div class="flow">
+          <div>✦ L’atmosphère énergétique du jour</div>
+          <div>✦ L’impulsion vibratoire du moment</div>
+          <div>✦ Les zones d’alignement ou de blocage</div>
+          <div>✦ Le message conscient derrière la synchronicité</div>
+        </div>
+      </aside>
+
+      <form id="readingForm">
+        <h2>Recevoir ma lecture vibratoire</h2>
+
+        <div class="grid">
+          <div class="field">
+            <label for="firstName">Prénom</label>
+            <input id="firstName" name="firstName" type="text" placeholder="Ex : Dupont" required />
+          </div>
+
+          <div class="field">
+            <label for="email">Email de réception</label>
+            <input id="email" name="email" type="email" placeholder="exemple@mail.com" required />
+          </div>
+
+          <div class="field">
+            <label for="day">Jour</label>
+            <select id="day" name="day" required></select>
+          </div>
+
+          <div class="field">
+            <label for="month">Mois</label>
+            <select id="month" name="month" required>
+              <option value="">Choisir</option>
+              <option value="1">Janvier</option>
+              <option value="2">Février</option>
+              <option value="3">Mars</option>
+              <option value="4">Avril</option>
+              <option value="5">Mai</option>
+              <option value="6">Juin</option>
+              <option value="7">Juillet</option>
+              <option value="8">Août</option>
+              <option value="9">Septembre</option>
+              <option value="10">Octobre</option>
+              <option value="11">Novembre</option>
+              <option value="12">Décembre</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="hour">Heure</label>
+            <select id="hour" name="hour" required></select>
+          </div>
+
+          <div class="field">
+            <label for="minute">Minute</label>
+            <select id="minute" name="minute" required></select>
+          </div>
+
+          <div class="field full">
+            <label for="intention">Intention ou question, optionnel</label>
+            <textarea
+              id="intention"
+              name="intention"
+              placeholder="Ex : comprendre pourquoi je vois cette heure, recevoir une orientation claire..."
+            ></textarea>
+          </div>
+        </div>
+
+        <button id="submitBtn" type="submit">Décoder cette synchronicité</button>
+
+        <div id="message" class="message" role="status"></div>
+
+        <p class="notice">
+          Cette lecture est une interprétation symbolique et vibratoire.
+          Elle sert à éclairer la conscience et non à enfermer l’être.
+        </p>
+      </form>
+    </section>
+
+    <footer>© Lu Nsinda — Lecture vibratoire symbolique</footer>
+  </main>
+
+  <script>
+    const N8N_WEBHOOK_URL =
+      "https://lunsinda.app.n8n.cloud/webhook/lu-nsinda-lecture";
+
+    const daySelect = document.getElementById("day");
+    const hourSelect = document.getElementById("hour");
+    const minuteSelect = document.getElementById("minute");
+    const form = document.getElementById("readingForm");
+    const message = document.getElementById("message");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function addOptions(select, start, end, pad = false) {
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = "Choisir";
+      select.appendChild(placeholder);
+
+      for (let i = start; i <= end; i++) {
+        const option = document.createElement("option");
+        option.value = String(i).padStart(pad ? 2 : 1, "0");
+        option.textContent = String(i).padStart(pad ? 2 : 1, "0");
+        select.appendChild(option);
+      }
+    }
+
+    addOptions(daySelect, 1, 31, true);
+    addOptions(hourSelect, 0, 23, true);
+    addOptions(minuteSelect, 0, 59, true);
+
+    function isValidDate(day, month) {
+      const year = new Date().getFullYear();
+      const date = new Date(year, Number(month) - 1, Number(day));
+
+      return (
+        date.getMonth() === Number(month) - 1 &&
+        date.getDate() === Number(day)
+      );
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      message.className = "message";
+      message.textContent = "";
+
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
+
+      if (!isValidDate(payload.day, payload.month)) {
+        message.className = "message error";
+        message.textContent = "Cette date n’existe pas. Vérifie le jour et le mois.";
+        return;
+      }
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Transmission...";
+
+        const response = await fetch(N8N_WEBHOOK_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error("Erreur webhook");
+        }
+
+        message.className = "message success";
+        message.textContent = "Ta lecture a bien été envoyée ✨";
+
+        form.reset();
+      } catch (error) {
+        message.className = "message error";
+        message.textContent = "Impossible d’envoyer la demande. Vérifie que n8n écoute bien le webhook test.";
+        console.error(error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Décoder cette synchronicité";
+      }
+    });
+  </script>
+</body>
+<footer>
+  <section class="support-section">
+  <div class="support-card">
+    <div class="support-glow"></div>
+
+    <h2>Offrande énergétique ✨</h2>
+
+    <p>
+      Si cette lecture vibratoire résonne en toi,
+      tu peux soutenir l’univers Lu Nsinda
+      et contribuer à faire circuler cette énergie.
+    </p>
+
+    <a
+      href="https://www.buymeacoffee.com/lunsinda"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="support-btn"
+    >
+      ☕ Soutenir Lu Nsinda
+    </a>
+  </div>
+</section>
+</footer>
+</html>
