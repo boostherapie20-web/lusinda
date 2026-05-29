@@ -5,9 +5,39 @@
 @media (max-width: 859px) {
   html,
   body {
+    width: 100%;
     max-width: 100%;
     overflow-x: hidden !important;
     overflow-x: clip !important;
+    overscroll-behavior-x: none;
+  }
+
+  body {
+    background-attachment: scroll !important;
+  }
+
+  .page {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    overflow-x: clip !important;
+  }
+
+  .hero,
+  .section,
+  .form-section,
+  .support-section,
+  .notice-card,
+  .site-footer {
+    max-width: 100% !important;
+  }
+
+  .hero {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: clamp(14px, 4vw, 22px) !important;
+    padding-right: clamp(14px, 4vw, 22px) !important;
   }
 
   .site-header {
