@@ -3,6 +3,13 @@
 }
 
 @media (max-width: 859px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden !important;
+    overflow-x: clip !important;
+  }
+
   .site-header {
     display: flex !important;
     align-items: center !important;
@@ -119,15 +126,20 @@
     box-shadow:
       -28px 0 70px rgba(0, 0, 0, 0.46),
       inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    opacity: 0 !important;
     pointer-events: none !important;
-    transform: translateX(105%) !important;
-    transition: transform 0.28s ease !important;
+    visibility: hidden !important;
+    transform: translate3d(100%, 0, 0) !important;
+    transition: transform 0.28s ease, opacity 0.2s ease, visibility 0s linear 0.28s !important;
     backdrop-filter: blur(22px) saturate(1.22) !important;
   }
 
   .site-header.is-menu-open .header-actions {
+    opacity: 1 !important;
     pointer-events: auto !important;
-    transform: translateX(0) !important;
+    visibility: visible !important;
+    transform: translate3d(0, 0, 0) !important;
+    transition: transform 0.28s ease, opacity 0.2s ease, visibility 0s !important;
   }
 
   .site-header .header-actions .pill-link {
