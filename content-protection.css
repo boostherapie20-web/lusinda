@@ -1,0 +1,19 @@
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+img,
+picture,
+svg {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+input,
+select,
+textarea,
+button {
+  -webkit-user-select: text;
+  user-select: text;
+}
